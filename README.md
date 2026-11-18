@@ -48,15 +48,13 @@
 When your phone makes contact with your MacBook's lid magnet, a **pure liquid water shockwave** radiates from the exact touched bezel edge across your Retina display while your active tab opens in the front window of Google Chrome:
 
 <p align="center">
-  <img src="screenshots/water_ripple_mac.png" width="85%" alt="Crystalline Water Shockwave Ripple on macOS" /><br>
+  <img src="screenshots/noxsnap_water_ripple.jpg" width="90%" alt="Crystalline Water Shockwave Ripple on macOS" /><br>
   <i>Crystalline dual-layer harmonic water wavefront expanding smoothly from the touched bezel corner.</i>
 </p>
 
 <p align="center">
-  <img src="screenshots/phone_ui.png" width="30%" alt="NoxSnap Android Pure Push UI" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="screenshots/chrome_handoff.png" width="55%" alt="Chrome Tab Handoff" /><br>
-  <i>Left: Android realtime magnetic flux gauge and auto-captured URL. Right: Seamless tab injection in Mac Chrome.</i>
+  <img src="screenshots/noxsnap_hardware_snap.jpg" width="90%" alt="Hardware Magnetic Handoff Snap" /><br>
+  <i>Hardware snap: Phone makes contact with MacBook lid bezel magnet to trigger instant browser handoff.</i>
 </p>
 
 ---
