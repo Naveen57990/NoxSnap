@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NoxSnap</string>
+    <string name="accessibility_desc">Enables NoxSnap to automatically sync the active browser tab (Chrome, YouTube, etc.) for instant beaming to Mac.</string>
+</resources>

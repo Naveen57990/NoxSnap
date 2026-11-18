@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.NoxSnap" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:statusBarColor">#0C0D14</item>
+        <item name="android:navigationBarColor">#0C0D14</item>
+        <item name="colorPrimary">#06B6D4</item>
+    </style>
+    <style name="Theme.NoxDock" parent="Theme.NoxSnap" />
+</resources>
