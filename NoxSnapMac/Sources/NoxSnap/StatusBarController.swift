@@ -50,13 +50,41 @@ public final class StatusBarController: NSObject, @unchecked Sendable {
             
             menu.addItem(NSMenuItem.separator())
             
-            let leftItem = NSMenuItem(title: "👈 Top-Left Bezel: Pull Mac ➔ Phone", action: nil, keyEquivalent: "")
-            leftItem.isEnabled = false
-            menu.addItem(leftItem)
+            let rippleSubmenu = NSMenu()
+            let currentPref = UserDefaults.standard.string(forKey: "NoxSnapRippleSidePref") ?? "right"
             
-            let rightItem = NSMenuItem(title: "👉 Top-Right Bezel: Push Phone ➔ Mac", action: nil, keyEquivalent: "")
-            rightItem.isEnabled = false
-            menu.addItem(rightItem)
+            let optRight = NSMenuItem(title: "👉 Top-Right Bezel (Default)", action: #selector(self.setSideRight), keyEquivalent: "")
+            optRight.target = self
+            optRight.state = (currentPref == "right") ? .on : .off
+            rippleSubmenu.addItem(optRight)
+            
+            let optLeft = NSMenuItem(title: "👈 Top-Left Bezel", action: #selector(self.setSideLeft), keyEquivalent: "")
+            optLeft.target = self
+            optLeft.state = (currentPref == "left") ? .on : .off
+            rippleSubmenu.addItem(optLeft)
+            
+            let optBoth = NSMenuItem(title: "🌊 Both Corners (Dual Shockwave)", action: #selector(self.setSideBoth), keyEquivalent: "")
+            optBoth.target = self
+            optBoth.state = (currentPref == "both") ? .on : .off
+            rippleSubmenu.addItem(optBoth)
+            
+            let optInvert = NSMenuItem(title: "🔄 Invert Phone Direction", action: #selector(self.setSideInvert), keyEquivalent: "")
+            optInvert.target = self
+            optInvert.state = (currentPref == "invert") ? .on : .off
+            rippleSubmenu.addItem(optInvert)
+            
+            let optPhone = NSMenuItem(title: "📱 Auto (From Phone)", action: #selector(self.setSidePhone), keyEquivalent: "")
+            optPhone.target = self
+            optPhone.state = (currentPref == "phone") ? .on : .off
+            rippleSubmenu.addItem(optPhone)
+            
+            let rippleMenuParent = NSMenuItem(title: "🌊 Water Ripple Origin", action: nil, keyEquivalent: "")
+            rippleMenuParent.submenu = rippleSubmenu
+            menu.addItem(rippleMenuParent)
+            
+            let testWave = NSMenuItem(title: "⚡️ Test Water Ripple Now", action: #selector(self.testWaveClicked), keyEquivalent: "t")
+            testWave.target = self
+            menu.addItem(testWave)
             
             menu.addItem(NSMenuItem.separator())
             
@@ -76,6 +104,40 @@ public final class StatusBarController: NSObject, @unchecked Sendable {
             
             self.statusItem?.menu = menu
         }
+    }
+    
+    @objc private func setSideRight() {
+        UserDefaults.standard.set("right", forKey: "NoxSnapRippleSidePref")
+        rebuildMenu()
+        MagneticRepelOverlay.shared.triggerRepelEffect(side: "right")
+    }
+    
+    @objc private func setSideLeft() {
+        UserDefaults.standard.set("left", forKey: "NoxSnapRippleSidePref")
+        rebuildMenu()
+        MagneticRepelOverlay.shared.triggerRepelEffect(side: "left")
+    }
+    
+    @objc private func setSideBoth() {
+        UserDefaults.standard.set("both", forKey: "NoxSnapRippleSidePref")
+        rebuildMenu()
+        MagneticRepelOverlay.shared.triggerRepelEffect(side: "both")
+    }
+    
+    @objc private func setSideInvert() {
+        UserDefaults.standard.set("invert", forKey: "NoxSnapRippleSidePref")
+        rebuildMenu()
+    }
+    
+    @objc private func setSidePhone() {
+        UserDefaults.standard.set("phone", forKey: "NoxSnapRippleSidePref")
+        rebuildMenu()
+    }
+    
+    @objc private func testWaveClicked() {
+        let pref = UserDefaults.standard.string(forKey: "NoxSnapRippleSidePref") ?? "right"
+        let side = (pref == "both") ? "both" : ((pref == "left") ? "left" : "right")
+        MagneticRepelOverlay.shared.triggerRepelEffect(side: side)
     }
     
     @objc private func showWindowClicked() {

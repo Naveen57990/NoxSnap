@@ -287,7 +287,16 @@ class MagneticDockDetector(
                             lastGlobalDockTime.set(now)
                             contactState = ContactState.LOCKED_IN_CONTACT
 
-                            val dockSide = if (abs(currentRoll) > 55.0f || currentYaw <= -95.0f) "left" else "right"
+                            // Side detection: Default to "right" (natural hand posture).
+                            // Only classify as "left" if phone is noticeably rolled/flipped (> 65°) or calibrated.
+                            val rawSide = if (isCalibrated) {
+                                if (classifyDirection(currentYaw, currentRoll) == DockDirection.PULL) "left" else "right"
+                            } else {
+                                if (abs(currentRoll) > 65.0f) "left" else "right"
+                            }
+                            val dockSide = if (invertPolarity) {
+                                if (rawSide == "left") "right" else "left"
+                            } else rawSide
                             Log.i(tag, "⚡️ Discrete Snap Fired! Mag: %.1f µT, Side: %s -> Beaming to Mac"
                                 .format(magnitude, dockSide))
                             

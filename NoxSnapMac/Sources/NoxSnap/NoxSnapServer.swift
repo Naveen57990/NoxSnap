@@ -152,7 +152,24 @@ public final class NoxSnapServer: @unchecked Sendable {
                 let sideHeader = headers["x-dock-side"]?.lowercased()
                 let sideQuery = queryParams["side"]?.lowercased()
                 let sideBody = bodyJson?["side"] as? String
-                let side = sideHeader ?? sideQuery ?? sideBody?.lowercased() ?? "right"
+                let incomingSide = sideHeader ?? sideQuery ?? sideBody?.lowercased() ?? "right"
+                
+                // Read Mac user preference for ripple origin:
+                // Options: "right" (default), "left", "both", "invert", "phone"
+                let sidePref = UserDefaults.standard.string(forKey: "NoxSnapRippleSidePref") ?? "right"
+                let side: String
+                switch sidePref {
+                case "right":
+                    side = "right"
+                case "left":
+                    side = "left"
+                case "both":
+                    side = "both"
+                case "invert":
+                    side = (incomingSide == "left") ? "right" : "left"
+                default: // "phone" / auto
+                    side = incomingSide
+                }
                 
                 self.serverLock.lock()
                 let now = Date()

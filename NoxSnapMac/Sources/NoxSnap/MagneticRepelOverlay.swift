@@ -209,15 +209,23 @@ public final class MagneticRepelOverlay: @unchecked Sendable {
             
             self.dismissTimer?.invalidate()
             
-            let isLeft = (side.lowercased() == "left")
-            
-            // Origin at the touched bezel edge
-            let cornerOrigin = isLeft ?
-                CGPoint(x: 14, y: screenRect.height - 24) :
-                CGPoint(x: screenRect.width - 14, y: screenRect.height - 24)
-            
-            // Radiate pure liquid water repel wave from the touched side
-            shockwave.emitWaterRepel(from: cornerOrigin)
+            let sideLower = side.lowercased()
+            if sideLower == "both" {
+                // Emit majestic dual-wave from both bezel corners simultaneously
+                let leftOrigin = CGPoint(x: 14, y: screenRect.height - 24)
+                let rightOrigin = CGPoint(x: screenRect.width - 14, y: screenRect.height - 24)
+                shockwave.emitWaterRepel(from: leftOrigin)
+                shockwave.emitWaterRepel(from: rightOrigin)
+            } else {
+                let isLeft = (sideLower == "left")
+                // Origin at the touched bezel edge
+                let cornerOrigin = isLeft ?
+                    CGPoint(x: 14, y: screenRect.height - 24) :
+                    CGPoint(x: screenRect.width - 14, y: screenRect.height - 24)
+                
+                // Radiate pure liquid water repel wave from the touched side
+                shockwave.emitWaterRepel(from: cornerOrigin)
+            }
             
             // Dismiss transparent panel after wave dissipates
             self.dismissTimer = Timer.scheduledTimer(withTimeInterval: 1.75, repeats: false) { [weak self] _ in
